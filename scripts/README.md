@@ -93,6 +93,72 @@ SALTO DE FASES:
   --skip-phase N               Saltar fase N (repetible: --skip-phase 1 --skip-phase 2)
 ```
 
+## 🔀 `--dev-agents N` vs `--parallel-impl`: ¿Cuándo usar cada una?
+
+Son dos estrategias completamente diferentes para paralelizar la FASE 3:
+
+| Aspecto | `--dev-agents 3` | `--parallel-impl` |
+|---------|-----------------|-------------------|
+| **Cuándo usarla** | Tareas **independientes** (distintos módulos/archivos) | Código **único** (mismo módulo, roles distintos) |
+| **División** | Por **módulos** — DEV_1, DEV_2, DEV_3 trabajan en código diferente | Por **rol** — IMPLEMENTER + TEST_WRITER trabajan en el mismo código |
+| **Agentes** | COORDINATOR + 3 DEV agents + TEST_WRITER | IMPLEMENTER + TEST_WRITER |
+| **Flujo FASE 3** | 1. COORDINATOR divide plan<br>2. DEV_1, DEV_2, DEV_3 en paralelo<br>3. TEST_WRITER espera a todos | 1. IMPLEMENTER + TEST_WRITER corren en paralelo |
+| **Tiempo total** | ⚡⚡⚡ Más rápido (3 agentes simultáneos) | ⚡⚡ Rápido (2 agentes simultáneos) |
+| **Complejidad** | 🔴 Mayor (coordinación de sub-tareas, sin conflictos) | 🟢 Menor (simple paralelismo) |
+| **Cuándo ignora** | N/A | Se ignora si `--dev-agents > 1` |
+
+### 📌 Regla de oro
+
+```
+┌─────────────────────────────────────────┐
+│ ¿El plan tiene partes INDEPENDIENTES?   │
+│                                         │
+│ SÍ  → --dev-agents 3                   │
+│ NO  → --parallel-impl (o secuencial)   │
+└─────────────────────────────────────────┘
+```
+
+### 🎯 Ejemplos
+
+#### Usa `--dev-agents 3` — Microservicios
+```bash
+python3 claude_iterative.py \
+  -t "Migrar a microservicios: Auth, Payment, Notifications" \
+  --type refactor \
+  --dev-agents 3
+```
+
+**Resultado en FASE 3:**
+```
+COORDINATOR: divide en 3 sub-tareas
+  ↓
+DEV_1: módulo auth (secuencial)
+DEV_2: módulo payment (paralelo a DEV_1)
+DEV_3: módulo notifications (paralelo a ambos)
+  ↓
+TEST_WRITER: tests para toda la arquitectura
+```
+
+Tiempo total ≈ tiempo de 1 sub-tarea (las 3 corren juntas)
+
+#### Usa `--parallel-impl` — Feature unitaria
+```bash
+python3 claude_iterative.py \
+  -t "Agregar autenticación OAuth2" \
+  --type feature \
+  --parallel-impl
+```
+
+**Resultado en FASE 3:**
+```
+IMPLEMENTER: escribe código OAuth2
+TEST_WRITER: escribe tests OAuth2   (paralelo a IMPLEMENTER)
+```
+
+Tiempo total ≈ max(tiempo implementar, tiempo tests) < tiempo secuencial
+
+---
+
 ## 📋 Fases Detalladas
 
 ### FASE 0: Crear Branch
