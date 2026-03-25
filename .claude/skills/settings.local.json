@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(brew install poppler)",
+      "Bash(pdftoppm -v)",
+      "Bash(pdftotext \"/Users/eorti02/Downloads/Ciclo de Desarrollo Moderno con Agente Dev.pdf\" -)",
+      "Bash(npm install -g docx)",
+      "Bash(node /tmp/create_curso_doc.js)",
+      "Read(//private/tmp/**)",
+      "Bash(npm init -y)",
+      "Bash(npm install docx)",
+      "Bash(node create_curso_doc.js)"
+    ]
+  }
+}

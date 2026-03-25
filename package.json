@@ -1,0 +1,25 @@
+{
+  "name": "claude-code-starter",
+  "version": "1.0.0",
+  "description": "Proyecto starter con Node.js, Express y vanilla JS",
+  "main": "backend/src/index.js",
+  "scripts": {
+    "dev": "node backend/src/index.js",
+    "start": "node backend/src/index.js",
+    "test": "jest --coverage --detectOpenHandles",
+    "test:watch": "jest --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^6.3.3"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
