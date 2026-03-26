@@ -724,15 +724,16 @@ Lee:
 - Log del implementador: {impl_log}
 
 Reglas:
-1. Escribe SOLO tests (pytest)
+1. Detecta el tipo de proyecto:
+   - Si existe package.json: escribe tests Jest (archivos *.test.js en tests/)
+   - Si no: escribe tests pytest (archivos test_*.py en tests/)
 2. Cubre happy path, edge cases y errores esperados
 3. Sigue el plan de QA exactamente
 4. Documenta en {log_file} los tests creados
 5. Alcanza coverage > {coverage}%
-6. Si existe un conftest.py padre que parchea sys.modules, el conftest hijo debe
-   deshacer explícitamente los patches que interfieran con los módulos a testear
-7. Resetea mocks de módulo (e.g. clientes boto3) entre tests con fixtures autouse
-8. Para pytest-cov, usa notación de punto: --cov=paquete.modulo (no paquete/modulo)
+6. Verifica ejecutando:
+   - Node.js: npx jest --coverage --coverageReporters=text --forceExit
+   - Python: pytest tests/ --cov=. --cov-report=term-missing -v
 """
 
 
@@ -785,15 +786,16 @@ Lee:
 {impl_logs}
 
 Reglas:
-1. Escribe SOLO tests (pytest)
+1. Detecta el tipo de proyecto:
+   - Si existe package.json: escribe tests Jest (archivos *.test.js en tests/)
+   - Si no: escribe tests pytest (archivos test_*.py en tests/)
 2. Cubre happy path, edge cases y errores esperados
 3. Sigue el plan de QA exactamente
 4. Documenta en {log_file} los tests creados
 5. Alcanza coverage > {coverage}%
-6. Si existe un conftest.py padre que parchea sys.modules, el conftest hijo debe
-   deshacer explícitamente los patches que interfieran con los módulos a testear
-7. Resetea mocks de módulo (e.g. clientes boto3) entre tests con fixtures autouse
-8. Para pytest-cov, usa notación de punto: --cov=paquete.modulo (no paquete/modulo)
+6. Verifica ejecutando:
+   - Node.js: npx jest --coverage --coverageReporters=text --forceExit
+   - Python: pytest tests/ --cov=. --cov-report=term-missing -v
 """
 
 COORDINATOR_PROMPT = """
