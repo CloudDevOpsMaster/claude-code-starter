@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 
 // Rutas básicas
-app.get('/api/health', (req, res) => {
+app.get('/health', (req, res) => {
   res.json({ success: true, data: { status: 'ok' } });
 });
 
