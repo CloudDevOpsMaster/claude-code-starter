@@ -160,6 +160,25 @@ describe('PUT /api/tasks/:id', () => {
         expect(res.status).toBe(400);
         expect(res.body.success).toBe(false);
     });
+
+    test('devuelve 400 si priority es inválido', async () => {
+        const res = await request(app)
+            .put('/api/tasks/1')
+            .send({ priority: 'urgente' });
+
+        expect(res.status).toBe(400);
+        expect(res.body.success).toBe(false);
+    });
+
+    test('incluye updatedAt en la respuesta', async () => {
+        const res = await request(app)
+            .put('/api/tasks/1')
+            .send({ title: 'Título actualizado' });
+
+        expect(res.status).toBe(200);
+        expect(res.body.data.updatedAt).toBeDefined();
+        expect(typeof res.body.data.updatedAt).toBe('string');
+    });
 });
 
 describe('DELETE /api/tasks/:id', () => {
