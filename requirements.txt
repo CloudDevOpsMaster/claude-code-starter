@@ -1,0 +1,18 @@
+# Python dependencies for claude-code-starter
+# Librerías estándar (no requieren instalación):
+# - argparse
+# - concurrent.futures
+# - json
+# - subprocess
+# - sys
+# - threading
+# - time
+# - dataclasses
+# - datetime
+# - enum
+# - pathlib
+# - typing
+
+# Optional: para desarrollo y testing
+pytest>=7.0
+pytest-cov>=4.0
