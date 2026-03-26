@@ -1,7 +1,5 @@
 /node_modules
 /package-lock.json
-# Scripts con dependencias faltantes
-scripts/claude_iterative.py
 
 # Python virtual environment
 venv/
