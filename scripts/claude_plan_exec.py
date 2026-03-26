@@ -410,15 +410,17 @@ Luego vuelve a ejecutar pytest --cov=. --cov-report=term-missing
 
 
 def parse_coverage(output: str) -> float:
-    """Extrae el % de coverage total del output de pytest-cov.
+    """Extrae el % de coverage total del output de pytest-cov o Jest.
 
-    Soporta 2, 3 o 4 columnas numéricas antes del porcentaje:
-      TOTAL   100   5   95%           (2 cols: stmts miss)
-      TOTAL   100   5   95%   ...     (con columna extra de líneas)
-      TOTAL   100   5   3   95%      (4 cols: stmts miss branch partial)
-    También detecta "Total coverage: XX%" y decimales.
+    Soporta:
+    - pytest-cov: TOTAL seguido de N columnas numéricas y un porcentaje
+    - Jest: "All files" seguido de porcentajes (ej: "All files | 79.22 |")
     """
-    # Formato principal: TOTAL seguido de N columnas numéricas y un porcentaje
+    # Formato Jest: "All files | XX.XX | ..."
+    match = re.search(r'^All files\s*\|\s*(\d+(?:\.\d+)?)\s*\|', output, re.MULTILINE)
+    if match:
+        return float(match.group(1))
+    # Formato pytest: TOTAL seguido de N columnas numéricas y un porcentaje
     match = re.search(r'^TOTAL\s+[\d\s]+?(\d+(?:\.\d+)?)%', output, re.MULTILINE)
     if match:
         return float(match.group(1))
@@ -432,13 +434,25 @@ def parse_coverage(output: str) -> float:
 
 
 def run_tests() -> tuple[bool, float, str]:
-    """Corre pytest --cov y retorna (passed, coverage_pct, output)."""
+    """Corre tests con coverage. Detecta pytest o Jest según el proyecto."""
     _backend_dir = Path(__file__).resolve().parent.parent / "backend"
-    r = subprocess.run(
-        [sys.executable, "-m", "pytest", "tests/", "--cov=.", "--cov-report=term-missing", "-v"],
-        capture_output=True, text=True,
-        cwd=str(_backend_dir)
-    )
+
+    # Detectar tipo de proyecto
+    if (_backend_dir / "package.json").exists():
+        # Node.js project — usar Jest
+        r = subprocess.run(
+            ["npx", "jest", "--coverage", "--coverageReporters=text", "--forceExit"],
+            capture_output=True, text=True,
+            cwd=str(_backend_dir)
+        )
+    else:
+        # Python project — usar pytest
+        r = subprocess.run(
+            [sys.executable, "-m", "pytest", "tests/", "--cov=.", "--cov-report=term-missing", "-v"],
+            capture_output=True, text=True,
+            cwd=str(_backend_dir)
+        )
+
     output = r.stdout + r.stderr
     coverage = parse_coverage(output)
     passed = r.returncode == 0
