@@ -433,11 +433,11 @@ def parse_coverage(output: str) -> float:
 
 def run_tests() -> tuple[bool, float, str]:
     """Corre pytest --cov y retorna (passed, coverage_pct, output)."""
-    _tests_dir = Path(__file__).resolve().parent.parent / "backend" / "tests"
+    _backend_dir = Path(__file__).resolve().parent.parent / "backend"
     r = subprocess.run(
-        [sys.executable, "-m", "pytest", "--cov=.", "--cov-report=term-missing", "-v"],
+        [sys.executable, "-m", "pytest", "tests/", "--cov=.", "--cov-report=term-missing", "-v"],
         capture_output=True, text=True,
-        cwd=str(_tests_dir)
+        cwd=str(_backend_dir)
     )
     output = r.stdout + r.stderr
     coverage = parse_coverage(output)

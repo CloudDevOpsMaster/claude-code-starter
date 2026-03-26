@@ -1092,12 +1092,16 @@ TAREA: {task}
 
 Lee todos los logs en {agents_dir}/ y el código implementado.
 
+DIRECTORIO DE TRABAJO: {backend_dir}
+Tests Python deben estar en: tests/ (archivos test_*.py)
+
 Pasos:
-1. Ejecuta: pytest --cov=. --cov-report=term-missing -v
-2. Si hay fallos, corrígelos
-3. Si coverage < {coverage}%, agrega más tests
-4. Repite hasta pasar o agotar {max_attempts} intentos
-5. Documenta resultados en {log_file}
+1. Navega a {backend_dir}
+2. Ejecuta: pytest tests/ --cov=. --cov-report=term-missing -v
+3. Si hay fallos, corrígelos
+4. Si coverage < {coverage}%, agrega más tests en tests/
+5. Repite hasta pasar o agotar {max_attempts} intentos
+6. Documenta resultados en {log_file}
 
 Objetivo: pytest pasa con coverage >= {coverage}%
 """
@@ -1126,11 +1130,13 @@ def phase4_integrate(
     if resume_id:
         flags += ["--resume", resume_id]
 
+    backend_dir = agents_dir.parent / "backend"
     t0 = time.monotonic()
     code, text, sid, usage = claude_p_with_session(
         INTEGRATOR_PROMPT.format(
             task=task,
             agents_dir=agents_dir,
+            backend_dir=backend_dir,
             coverage=coverage,
             max_attempts=3,
             log_file=log_file,
