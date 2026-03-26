@@ -33,6 +33,72 @@ Mostrar el `CLAUDE.md` en el editor:
 
 ---
 
+## 📚 Referencia rápida — Comandos, Skills y Subagents
+
+Tres conceptos clave que aparecerán durante la sesión. Expande para consultar:
+
+<details>
+<summary><strong>Comandos Claude Code (`/comando`)</strong></summary>
+
+Son **built-in** de Claude Code — no requieren configuración, funcionan en cualquier proyecto.
+
+| Comando | Qué hace |
+|---|---|
+| `/plan` | Planifica antes de ejecutar, espera tu aprobación. **Recomendado para features grandes.** |
+| `/help` | Lista todos los comandos disponibles. |
+| `/compact` | Comprime el contexto cuando se vuelve muy largo. |
+| `/exit` | Cierra la sesión. |
+| `/clear` | Limpia el histórico de la conversación actual. |
+| `/review` | Pide revisión de los cambios recientes. |
+
+**Diferenciador:** son **universales**, aplican igual en todo proyecto.
+
+</details>
+
+<details>
+<summary><strong>Skills (`.claude/skills/*.md`)</strong></summary>
+
+Son **instrucciones reutilizables personalizadas** por tu equipo. Claude las lee y las sigue como si fueran parte del prompt.
+
+- Se invocan **nombrándolas en el prompt**: `"Usa el skill add-endpoint para crear GET /api/tags"`
+- Viven en `.claude/skills/` — versionadas con el proyecto
+- Definen **patrones específicos del proyecto** (estructura de código, testing, validación)
+
+**Ejemplos en este repo:**
+- `add-endpoint.md` — patrón para agregar endpoints REST
+- `add-test.md` — patrón para generar tests con Jest + Supertest
+
+**Diferenciador:** son **personalizadas y versionadas**, definen "cómo hacemos las cosas aquí".
+
+</details>
+
+<details>
+<summary><strong>Subagents (internos)</strong></summary>
+
+Son **agentes especializados** que Claude lanza automáticamente cuando la tarea lo requiere. El usuario NO los invoca directamente.
+
+**Tipos disponibles:**
+- **Explore** — busca archivos, patrones y código en el repositorio
+- **Plan** — diseña estrategias de implementación complejas
+- **general-purpose** — investiga, resuelve problemas multi-paso
+
+Claude elige lanzarlos según el contexto. Por ejemplo: si escribes `/plan`, Claude puede lanzar internamente un Explore para entender el codebase, luego un Plan para diseñar.
+
+**Diferenciador:** son **internos y automáticos**, tú ves solo el resultado final.
+
+</details>
+
+### Tabla de diferencias rápidas
+
+| Aspecto | Comandos (`/`) | Skills | Subagents |
+|---|---|---|---|
+| **Quién los invoca** | Tú (usuario) | Tú (nombrándolos en prompt) | Claude (automáticamente) |
+| **Dónde viven** | Built-in en Claude Code | `.claude/skills/*.md` (tu repo) | Internos en Claude |
+| **Personalizable** | ❌ No | ✅ Sí | ❌ No |
+| **Alcance** | Cualquier proyecto | Solo tu proyecto | Cualquier proyecto |
+
+---
+
 ## ⏱ BLOQUE 2 — Primer uso real (15:00–35:00)
 
 **Objetivo:** Ver el ciclo completo: prompt → plan → aprobar → código.
