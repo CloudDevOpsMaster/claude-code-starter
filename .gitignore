@@ -29,3 +29,6 @@ share/python-wheels/
 *.egg
 MANIFEST
 backend/node_modules/
+.DS_Store
+.env
+scripts/.coverage
