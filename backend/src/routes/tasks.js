@@ -3,21 +3,27 @@ const router = express.Router();
 
 // Almacenamiento en memoria (simula una base de datos)
 let tasks = [
-    { id: 1, title: 'Instalar Claude Code', done: true, priority: 'high', createdAt: '2026-01-01T10:00:00Z' },
-    { id: 2, title: 'Leer el CLAUDE.md del proyecto', done: true, priority: 'high', createdAt: '2026-01-01T10:05:00Z' },
-    { id: 3, title: 'Hacer el ejercicio 01', done: false, priority: 'medium', createdAt: '2026-01-01T10:10:00Z' },
-    { id: 4, title: 'Hacer el ejercicio 02', done: false, priority: 'medium', createdAt: '2026-01-01T10:15:00Z' },
+    { id: 1, title: 'Instalar Claude Code', done: true, priority: 'high', category: 'estudio', createdAt: '2026-01-01T10:00:00Z' },
+    { id: 2, title: 'Leer el CLAUDE.md del proyecto', done: true, priority: 'high', category: 'estudio', createdAt: '2026-01-01T10:05:00Z' },
+    { id: 3, title: 'Hacer el ejercicio 01', done: false, priority: 'medium', category: 'estudio', createdAt: '2026-01-01T10:10:00Z' },
+    { id: 4, title: 'Hacer el ejercicio 02', done: false, priority: 'medium', category: 'estudio', createdAt: '2026-01-01T10:15:00Z' },
 ];
 let nextId = 5;
 
+const VALID_CATEGORIES = ['trabajo', 'personal', 'estudio', 'otro'];
+
 // GET /api/tasks — Lista todas las tareas
 router.get('/', (req, res) => {
-    const { done, sort } = req.query;
+    const { done, sort, category } = req.query;
     let result = tasks;
 
     if (done !== undefined) {
         const isDone = done === 'true';
         result = tasks.filter(t => t.done === isDone);
+    }
+
+    if (category !== undefined) {
+        result = result.filter(t => t.category === category);
     }
 
     if (sort === 'priority') {
@@ -42,7 +48,7 @@ router.get('/:id', (req, res) => {
 
 // POST /api/tasks — Crea una nueva tarea
 router.post('/', (req, res) => {
-    const { title, priority = 'medium' } = req.body;
+    const { title, priority = 'medium', category = 'otro' } = req.body;
 
     if (!title || typeof title !== 'string' || title.trim() === '') {
         return res.status(400).json({ success: false, error: 'El campo "title" es requerido y debe ser texto' });
@@ -53,11 +59,16 @@ router.post('/', (req, res) => {
         return res.status(400).json({ success: false, error: `"priority" debe ser: ${validPriorities.join(', ')}` });
     }
 
+    if (!VALID_CATEGORIES.includes(category)) {
+        return res.status(400).json({ success: false, error: `"category" debe ser: ${VALID_CATEGORIES.join(', ')}` });
+    }
+
     const newTask = {
         id: nextId++,
         title: title.trim(),
         done: false,
         priority,
+        category,
         createdAt: new Date().toISOString(),
     };
 
@@ -74,7 +85,7 @@ router.put('/:id', (req, res) => {
         return res.status(404).json({ success: false, error: `Tarea con id ${id} no encontrada` });
     }
 
-    const { title, done, priority } = req.body;
+    const { title, done, priority, category } = req.body;
     const task = tasks[taskIndex];
 
     if (title !== undefined) {
@@ -99,6 +110,13 @@ router.put('/:id', (req, res) => {
         task.priority = priority;
     }
 
+    if (category !== undefined) {
+        if (!VALID_CATEGORIES.includes(category)) {
+            return res.status(400).json({ success: false, error: `"category" debe ser: ${VALID_CATEGORIES.join(', ')}` });
+        }
+        task.category = category;
+    }
+
     task.updatedAt = new Date().toISOString();
     tasks[taskIndex] = task;
 
@@ -121,8 +139,8 @@ router.delete('/:id', (req, res) => {
 // Exportamos tasks para poder resetearlos en tests
 router.resetTasks = () => {
     tasks = [
-        { id: 1, title: 'Tarea de prueba 1', done: false, priority: 'medium', createdAt: '2026-01-01T10:00:00Z' },
-        { id: 2, title: 'Tarea de prueba 2', done: true, priority: 'high', createdAt: '2026-01-01T10:05:00Z' },
+        { id: 1, title: 'Tarea de prueba 1', done: false, priority: 'medium', category: 'personal', createdAt: '2026-01-01T10:00:00Z' },
+        { id: 2, title: 'Tarea de prueba 2', done: true, priority: 'high', category: 'trabajo', createdAt: '2026-01-01T10:05:00Z' },
     ];
     nextId = 3;
 };

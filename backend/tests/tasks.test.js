@@ -54,6 +54,19 @@ describe('GET /api/tasks', () => {
             expect(order[priorities[i]]).toBeLessThanOrEqual(order[priorities[i + 1]]);
         }
     });
+
+    test('filtra por category=trabajo', async () => {
+        const res = await request(app).get('/api/tasks?category=trabajo');
+        expect(res.status).toBe(200);
+        expect(res.body.data.every(t => t.category === 'trabajo')).toBe(true);
+        expect(res.body.total).toBeGreaterThan(0);
+    });
+
+    test('devuelve lista vacía si ninguna tarea tiene esa category', async () => {
+        const res = await request(app).get('/api/tasks?category=estudio');
+        expect(res.status).toBe(200);
+        expect(res.body.data).toHaveLength(0);
+    });
 });
 
 describe('GET /api/tasks/:id', () => {
@@ -122,6 +135,33 @@ describe('POST /api/tasks', () => {
         expect(res.status).toBe(400);
         expect(res.body.success).toBe(false);
     });
+
+    test('usa category "otro" por defecto', async () => {
+        const res = await request(app)
+            .post('/api/tasks')
+            .send({ title: 'Sin category' });
+
+        expect(res.status).toBe(201);
+        expect(res.body.data.category).toBe('otro');
+    });
+
+    test('crea tarea con category válida', async () => {
+        const res = await request(app)
+            .post('/api/tasks')
+            .send({ title: 'Tarea', category: 'trabajo' });
+
+        expect(res.status).toBe(201);
+        expect(res.body.data.category).toBe('trabajo');
+    });
+
+    test('devuelve 400 si category es inválida en POST', async () => {
+        const res = await request(app)
+            .post('/api/tasks')
+            .send({ title: 'Tarea', category: 'hobbies' });
+
+        expect(res.status).toBe(400);
+        expect(res.body.success).toBe(false);
+    });
 });
 
 describe('PUT /api/tasks/:id', () => {
@@ -178,6 +218,24 @@ describe('PUT /api/tasks/:id', () => {
         expect(res.status).toBe(200);
         expect(res.body.data.updatedAt).toBeDefined();
         expect(typeof res.body.data.updatedAt).toBe('string');
+    });
+
+    test('actualiza category de una tarea', async () => {
+        const res = await request(app)
+            .put('/api/tasks/1')
+            .send({ category: 'estudio' });
+
+        expect(res.status).toBe(200);
+        expect(res.body.data.category).toBe('estudio');
+    });
+
+    test('devuelve 400 si category es inválida en PUT', async () => {
+        const res = await request(app)
+            .put('/api/tasks/1')
+            .send({ category: 'hobbies' });
+
+        expect(res.status).toBe(400);
+        expect(res.body.success).toBe(false);
     });
 });
 
