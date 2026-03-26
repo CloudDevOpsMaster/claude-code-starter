@@ -27,6 +27,33 @@ describe('GET /api/tasks', () => {
         expect(res.status).toBe(200);
         expect(res.body.data.every(t => t.done === false)).toBe(true);
     });
+
+    test('ordena por prioridad con ?sort=priority', async () => {
+        const res = await request(app).get('/api/tasks?sort=priority');
+        expect(res.status).toBe(200);
+        const priorities = res.body.data.map(t => t.priority);
+        const order = { high: 0, medium: 1, low: 2 };
+        for (let i = 0; i < priorities.length - 1; i++) {
+            expect(order[priorities[i]]).toBeLessThanOrEqual(order[priorities[i + 1]]);
+        }
+    });
+
+    test('ignora sort inválido y devuelve lista normal', async () => {
+        const res = await request(app).get('/api/tasks?sort=unknown');
+        expect(res.status).toBe(200);
+        expect(Array.isArray(res.body.data)).toBe(true);
+    });
+
+    test('combina ?done=false con ?sort=priority', async () => {
+        const res = await request(app).get('/api/tasks?done=false&sort=priority');
+        expect(res.status).toBe(200);
+        expect(res.body.data.every(t => t.done === false)).toBe(true);
+        const priorities = res.body.data.map(t => t.priority);
+        const order = { high: 0, medium: 1, low: 2 };
+        for (let i = 0; i < priorities.length - 1; i++) {
+            expect(order[priorities[i]]).toBeLessThanOrEqual(order[priorities[i + 1]]);
+        }
+    });
 });
 
 describe('GET /api/tasks/:id', () => {

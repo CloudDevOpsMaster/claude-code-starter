@@ -1,16 +1,22 @@
 const express = require('express');
+const tasksRouter = require('./routes/tasks');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(express.json());
-app.use(express.static('frontend'));
 
 // Rutas básicas
 app.get('/api/health', (req, res) => {
-  res.json({ success: true, data: { status: 'API running' } });
+  res.json({ success: true, data: { status: 'ok' } });
 });
+
+// Rutas de recursos
+app.use('/api/tasks', tasksRouter);
+
+// Servir archivos estáticos al final
+app.use(express.static('frontend'));
 
 // Error handling
 app.use((err, req, res, next) => {
@@ -18,6 +24,11 @@ app.use((err, req, res, next) => {
   res.status(500).json({ success: false, error: 'Internal server error' });
 });
 
-app.listen(PORT, () => {
-  console.log(`🚀 API running on http://localhost:${PORT}`);
-});
+// Solo escuchar si se ejecuta directamente (no cuando se importa para tests)
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`🚀 API running on http://localhost:${PORT}`);
+  });
+}
+
+module.exports = app;

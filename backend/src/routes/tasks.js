@@ -12,12 +12,17 @@ let nextId = 5;
 
 // GET /api/tasks — Lista todas las tareas
 router.get('/', (req, res) => {
-    const { done } = req.query;
+    const { done, sort } = req.query;
     let result = tasks;
 
     if (done !== undefined) {
         const isDone = done === 'true';
         result = tasks.filter(t => t.done === isDone);
+    }
+
+    if (sort === 'priority') {
+        const PRIORITY_ORDER = { high: 0, medium: 1, low: 2 };
+        result = [...result].sort((a, b) => PRIORITY_ORDER[a.priority] - PRIORITY_ORDER[b.priority]);
     }
 
     res.json({ success: true, data: result, total: result.length });
