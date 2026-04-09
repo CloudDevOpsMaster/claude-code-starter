@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Code — Ultra Premium</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #a78bfa;
+            --primary-light: #d8b4fe;
+            --primary-dark: #7c3aed;
+            --secondary: #6366f1;
+            --accent-1: #ec4899;
+            --accent-2: #f59e0b;
+            --accent-3: #34d399;
+            --bg-dark: #0a0a0e;
+            --bg-darker: #05050a;
+            --bg-card: #1a1625;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--bg-darker) 0%, #0f1420 25%, #0a0e1a 50%, var(--bg-darker) 100%);
+            background-attachment: fixed;
+            background-size: 200% 200%;
+            animation: gradientShift 8s ease infinite;
+            color: var(--text-primary);
+            height: 100vh;
+            overflow: hidden;
+            letter-spacing: -0.3px;
+            position: relative;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* ═══════════════════════════════════════════════════════════════ */
+        /* ANIMATED BACKGROUND */
+        /* ═══════════════════════════════════════════════════════════════ */
+
+        .bg-orbs {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.08;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, var(--primary), var(--accent-1));
+            top: -200px;
+            left: -200px;
+            animation-duration: 25s;
+        }
+
+        .orb-2 {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, var(--secondary), var(--accent-3));
+            bottom: -50px;
+            right: -50px;
+            animation-duration: 20s;
+            animation-delay: -5s;
+        }
+
+        .orb-3 {
+            width: 350px;
+            height: 350px;
+            background: linear-gradient(135deg, var(--accent-2), var(--primary));
+            top: 50%;
+            right: -100px;
+            animation-duration: 22s;
+            animation-delay: -10s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            25% { transform: translate(30px, -30px); }
+            50% { transform: translate(-20px, 20px); }
+            75% { transform: translate(20px, 10px); }
+        }
+
+        /* ═══════════════════════════════════════════════════════════════ */
+        /* DECK */
+        /* ═══════════════════════════════════════════════════════════════ */
+
+        .deck {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            z-index: 10;
+            perspective: 1500px;
+        }
+
+        .slide {
+            display: none;
+            width: 100%;
+            height: 100vh;
+            padding: 80px 70px;
+            flex-direction: column;
+            justify-content: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            animation: slideInAdvanced 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            backdrop-filter: blur(5px);
+        }
+
+        .slide.active { display: flex; z-index: 20; }
+
+        @keyframes slideInAdvanced {
+            from {
+                opacity: 0;
+                transform: translateX(60px) rotateY(5deg);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0) rotateY(0);
+            }
+        }
+
+        /* ═══════════════════════════════════════════════════════════════ */
+        /* TYPOGRAPHY */
+        /* ═══════════════════════════════════════════════════════════════ */
+
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 5.2em;
+            font-weight: 700;
+            line-height: 1.02;
+            letter-spacing: -3px;
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 30%, var(--secondary) 70%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            text-shadow: 0 8px 32px rgba(167, 139, 250, 0.2);
+            filter: drop-shadow(0 4px 12px rgba(167, 139, 250, 0.15));
+        }
+
+        h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3.6em;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 32px;
+            line-height: 1.1;
+            letter-spacing: -1.5px;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--primary-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h3 {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 18px;
+            letter-spacing: -0.5px;
+        }
+
+        p, li {
+            font-size: 1.45em;
+            color: var(--text-secondary);
+            line-height: 1.75;
+            font-weight: 400;
+        }
+
+        .subtitle {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2em;
+            color: var(--text-muted);
+            margin-bottom: 48px;
+            font-weight: 600;
+            line-height: 1.6;
+            letter-spacing: -0.5px;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════ */
+        /* BADGES & TAGS */
+        /* ═══════════════════════════════════════════════════════════════ */
+
+        .tag {
+            display: inline-block;
+            background: linear-gradient(135deg, rgba(167, 139, 250, 0.15), rgba(99, 102, 241, 0.12), rgba(236, 72, 153, 0.08));
+            border: 1.5px solid rgba(167, 139, 250, 0.3);
+            color: var(--primary-light);
+            padding: 10px 24px;
+            border-radius: 100px;
+            font-size: 0.9em;
+            font-weight: 700;
+            margin-bottom: 28px;
+            backdrop-filter: blur(30px);
+            box-shadow: 0 8px 32px rgba(167, 139, 250, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tag::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .tag:hover {
+            background: linear-gradient(135deg, rgba(167, 139, 250, 0.25), rgba(99, 102, 241, 0.2), rgba(236, 72, 153, 0.15));
+            border-color: rgba(167, 139, 250, 0.5);
+            box-shadow: 0 12px 48px rgba(167, 139, 250, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .accent { color: var(--primary); font-weight: 700; }
+        .accent-gold { color: var(--accent-2); font-weight: 700; }
+        .accent-green { color: var(--accent-3); font-weight: 700; }
+        .accent-pink { color: var(--accent-1); font-weight: 700; }
+
+        /* ═══════════════════════════════════════════════════════════════ */
+        /* LAYOUTS */
+        /* ═══════════════════════════════════════════════════════════════ */
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 70px;
+            align-items: center;
+        }
+
+        .two-col-70 {
+            display: grid;
+            grid-template-columns: 1.3fr 0.9fr;
+            gap: 90px;
+            align-items: center;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════ */
+        /* CARDS & COMPONENTS */
+        /* ═══════════════════════════════════════════════════════════════ */
+
+        .card {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.08), rgba(0, 0, 0, 0.1));
+            border: 1.5px solid rgba(167, 139, 250, 0.25);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(30px);
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.08);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(167, 139, 250, 0.1), transparent);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .card > * { position: relative; z-index: 2; }
+
+        .card:hover {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(168, 85, 247, 0.12), rgba(99, 102, 241, 0.08));
+            border-color: rgba(167, 139, 250, 0.4);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(167, 139, 250, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.12);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════ */
+        /* LISTS */
+        /* ═══════════════════════════════════════════════════════════════ */
+
+        ul.clean {
+            list-style: none;
+        }
+
+        ul.clean li {
+            padding: 18px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 18px;
+            border-bottom: 1px solid rgba(167, 139, 250, 0.1);
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+        }
+
+        ul.clean li:last-child {
+            border-bottom: none;
+        }
+
+        ul.clean li:hover {
+            padding-left: 10px;
+            color: var(--primary-light);
+        }
+
+        ul.clean li::before {
+            content: '◆';
+            color: var(--primary);
+            font-size: 0.8em;
+            min-width: 20px;
+            opacity: 0.8;
+            transition: all 0.3s;
+        }
+
+        ul.clean li:hover::before {
+            color: var(--accent-1);
+            opacity: 1;
+            transform: scale(1.2) rotate(45deg);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════ */
+        /* COMPARISON */
+        /* ═══════════════════════════════════════════════════════════════ */
+
+        .compare {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 28px;
+        }
+
+        .compare-col {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(0, 0, 0, 0.15));
+            border: 1.5px solid rgba(167, 139, 250, 0.25);
+            border-radius: 18px;
+            padding: 40px;
+            backdrop-filter: blur(30px);
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.08);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .compare-col:hover {
+            transform: translateY(-6px);
+            border-color: rgba(167, 139, 250, 0.35);
+            box-shadow: 0 16px 60px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.12);
+        }
+
+        .compare-col h3 {
+            font-size: 1.6em;
+            margin-bottom: 28px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid;
+        }
+
+        .compare-col.vibe h3 {
+            color: var(--accent-1);
+            border-color: rgba(236, 72, 153, 0.4);
+        }
+
+        .compare-col.spec h3 {
+            color: var(--accent-3);
+            border-color: rgba(52, 211, 153, 0.4);
+        }
+
+        .compare-col ul {
+            list-style: none;
+        }
+
+        .compare-col ul li {
+            padding: 14px 0;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s;
+        }
+
+        .compare-col ul li:last-child {
+            border-bottom: none;
+        }
+
+        .compare-col ul li:hover {
+            padding-left: 8px;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════ */
+        /* CALLOUT */
+        /* ═══════════════════════════════════════════════════════════════ */
+
+        .callout {
+            background: linear-gradient(135deg, rgba(167, 139, 250, 0.15), rgba(99, 102, 241, 0.1));
+            border: 1.5px solid rgba(167, 139, 250, 0.4);
+            border-radius: 18px;
+            padding: 36px 44px;
+            margin-top: 36px;
+            backdrop-filter: blur(30px);
+            box-shadow: 0 12px 48px rgba(167, 139, 250, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .callout::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(167, 139, 250, 0.1), transparent);
+            pointer-events: none;
+        }
+
+        .callout p {
+            font-size: 1.35em;
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1.8;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════ */
+        /* CODE BLOCK */
+        /* ═══════════════════════════════════════════════════════════════ */
+
+        .code {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.7), rgba(10, 10, 20, 0.5));
+            border: 1.5px solid rgba(167, 139, 250, 0.25);
+            border-radius: 16px;
+            padding: 32px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1em;
+            color: var(--primary-light);
+            line-height: 2;
+            white-space: pre;
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4), inset 0 2px 8px rgba(167, 139, 250, 0.05);
+            letter-spacing: 0.5px;
+            backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .code::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(167, 139, 250, 0.3), transparent);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════ */
+        /* POLL OPTIONS */
+        /* ═══════════════════════════════════════════════════════════════ */
+
+        .poll-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            margin-top: 16px;
+        }
+
+        .poll-opt {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(0, 0, 0, 0.15));
+            border: 1.5px solid rgba(167, 139, 250, 0.25);
+            border-radius: 16px;
+            padding: 28px;
+            font-size: 1.12em;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            backdrop-filter: blur(30px);
+            position: relative;
+            overflow: hidden;
+            font-weight: 500;
+        }
+
+        .poll-opt::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(167, 139, 250, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.4s;
+            pointer-events: none;
+        }
+
+        .poll-opt:hover {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.25), rgba(99, 102, 241, 0.15));
+            border-color: var(--primary);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(167, 139, 250, 0.2);
+            color: var(--text-primary);
+        }
+
+        .poll-opt:hover::before {
+            opacity: 1;
+        }
+
+        .poll-opt .letter {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            font-weight: 900;
+            width: 36px;
+            height: 36px;
+            line-height: 36px;
+            text-align: center;
+            border-radius: 10px;
+            margin-right: 14px;
+            box-shadow: 0 4px 16px rgba(167, 139, 250, 0.3);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════ */
+        /* CHECKLIST */
+        /* ═══════════════════════════════════════════════════════════════ */
+
+        .checklist {
+            list-style: none;
+        }
+
+        .checklist li {
+            padding: 16px 20px;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, rgba(52, 211, 153, 0.1), rgba(0, 0, 0, 0.1));
+            border-left: 4px solid var(--accent-3);
+            border-radius: 12px;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            border: 1px solid rgba(52, 211, 153, 0.2);
+            backdrop-filter: blur(20px);
+        }
+
+        .checklist li:hover {
+            background: linear-gradient(135deg, rgba(52, 211, 153, 0.15), rgba(52, 211, 153, 0.08));
+            transform: translateX(6px);
+            border-color: rgba(52, 211, 153, 0.35);
+        }
+
+        .check {
+            color: var(--accent-3);
+            font-size: 1.3em;
+            font-weight: 800;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════ */
+        /* CONCEPT CARDS */
+        /* ═══════════════════════════════════════════════════════════════ */
+
+        .concepts {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .concept {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(0, 0, 0, 0.12));
+            border: 1.5px solid rgba(167, 139, 250, 0.25);
+            border-radius: 16px;
+            padding: 28px 20px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            backdrop-filter: blur(30px);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .concept::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(167, 139, 250, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.4s;
+            pointer-events: none;
+        }
+
+        .concept:hover {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(167, 139, 250, 0.12));
+            border-color: rgba(167, 139, 250, 0.45);
+            transform: translateY(-8px);
+            box-shadow: 0 16px 48px rgba(167, 139, 250, 0.2);
+        }
+
+        .concept:hover::before {
+            opacity: 1;
+        }
+
+        .concept .ico {
+            font-size: 2.2em;
+            margin-bottom: 14px;
+            display: block;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .concept .name {
+            font-size: 1.05em;
+            font-weight: 750;
+            color: var(--primary);
+            line-height: 1.4;
+            letter-spacing: -0.3px;
+        }
+
+        .concept .desc {
+            font-size: 0.85em;
+            color: var(--text-muted);
+            margin-top: 8px;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        /* ═══════════════════════════════════════════════════════════════ */
+        /* FLOW DIAGRAM */
+        /* ═══════════════════════════════════════════════════════════════ */
+
+        .flow {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .flow-item {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.18), rgba(0, 0, 0, 0.12));
+            border: 1.5px solid rgba(167, 139, 250, 0.3);
+            border-radius: 12px;
+            padding: 16px 30px;
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.05em;
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            backdrop-filter: blur(30px);
+            cursor: pointer;
+        }
+
+        .flow-item:hover {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.3), rgba(99, 102, 241, 0.15));
+            border-color: var(--primary);
+            transform: scale(1.05);
+            box-shadow: 0 8px 24px rgba(167, 139, 250, 0.15);
+        }
+
+        .flow-arrow {
+            color: var(--secondary);
+            font-size: 1.8em;
+            font-weight: 800;
+            opacity: 0.7;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        /* ═══════════════════════════════════════════════════════════════ */
+        /* SCENARIO BOX */
+        /* ═══════════════════════════════════════════════════════════════ */
+
+        .scenario {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.12), rgba(245, 158, 11, 0.08));
+            border: 1.5px solid rgba(245, 158, 11, 0.35);
+            border-radius: 16px;
+            padding: 28px 36px;
+            margin-bottom: 36px;
+            backdrop-filter: blur(30px);
+            box-shadow: 0 8px 32px rgba(245, 158, 11, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scenario::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-2), transparent);
+        }
+
+        .scenario p {
+            color: var(--accent-2);
+            font-size: 1.1em;
+            font-style: italic;
+            font-weight: 600;
+            position: relative;
+            z-index: 2;
+            line-height: 1.5;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════ */
+        /* SUBAGENTS */
+        /* ═══════════════════════════════════════════════════════════════ */
+
+        .agents {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .agent {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(0, 0, 0, 0.12));
+            border: 1.5px solid rgba(167, 139, 250, 0.25);
+            border-radius: 16px;
+            padding: 28px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            backdrop-filter: blur(30px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .agent:hover {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.18), rgba(99, 102, 241, 0.1));
+            border-color: rgba(167, 139, 250, 0.4);
+            transform: translateY(-6px);
+            box-shadow: 0 12px 48px rgba(167, 139, 250, 0.15);
+        }
+
+        .agent .label {
+            font-size: 0.8em;
+            color: var(--secondary);
+            font-weight: 800;
+            letter-spacing: 1.8px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        .agent p {
+            font-size: 1.05em;
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════ */
+        /* ACTION BUTTONS */
+        /* ═══════════════════════════════════════════════════════════════ */
+
+        .actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .action {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.14), rgba(0, 0, 0, 0.12));
+            border: 1.5px solid rgba(167, 139, 250, 0.28);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            font-size: 1.1em;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            backdrop-filter: blur(30px);
+            font-weight: 700;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .action::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+            pointer-events: none;
+        }
+
+        .action:hover {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.25), rgba(99, 102, 241, 0.15));
+            border-color: var(--primary);
+            transform: translateY(-6px);
+            box-shadow: 0 16px 48px rgba(167, 139, 250, 0.2);
+            color: var(--text-primary);
+        }
+
+        .action:hover::before {
+            left: 100%;
+        }
+
+        .action .num {
+            font-size: 2em;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+            margin-bottom: 12px;
+            letter-spacing: -1px;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════ */
+        /* BEFORE/AFTER */
+        /* ═══════════════════════════════════════════════════════════════ */
+
+        .before-after {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 28px;
+        }
+
+        .before, .after {
+            padding: 32px;
+            border-radius: 16px;
+            border: 1.5px solid;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1));
+            backdrop-filter: blur(30px);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .before {
+            border-color: rgba(100, 116, 139, 0.35);
+        }
+
+        .before:hover {
+            border-color: rgba(100, 116, 139, 0.5);
+            transform: translateY(-4px);
+        }
+
+        .after {
+            border-color: rgba(167, 139, 250, 0.35);
+        }
+
+        .after:hover {
+            border-color: rgba(167, 139, 250, 0.5);
+            transform: translateY(-4px);
+        }
+
+        .before h3 {
+            color: var(--text-muted);
+        }
+
+        .after h3 {
+            color: var(--primary);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════ */
+        /* FINAL MESSAGE */
+        /* ═══════════════════════════════════════════════════════════════ */
+
+        .final-msg {
+            background: linear-gradient(135deg, rgba(167, 139, 250, 0.18), rgba(99, 102, 241, 0.12));
+            border: 1.5px solid rgba(167, 139, 250, 0.45);
+            border-radius: 20px;
+            padding: 52px 60px;
+            text-align: center;
+            margin-top: 44px;
+            backdrop-filter: blur(30px);
+            box-shadow: 0 16px 60px rgba(167, 139, 250, 0.18), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .final-msg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(167, 139, 250, 0.1), transparent);
+            pointer-events: none;
+        }
+
+        .final-msg p {
+            font-size: 1.7em;
+            font-weight: 750;
+            color: var(--text-primary);
+            line-height: 1.85;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════ */
+        /* DIVIDER */
+        /* ═══════════════════════════════════════════════════════════════ */
+
+        hr.glow {
+            border: none;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(167, 139, 250, 0.4), transparent);
+            margin: 32px 0;
+            box-shadow: 0 0 20px rgba(167, 139, 250, 0.2);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════ */
+        /* CONTROLS */
+        /* ═══════════════════════════════════════════════════════════════ */
+
+        .controls {
+            position: fixed;
+            bottom: 44px;
+            right: 44px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            z-index: 100;
+        }
+
+        .ctrl-btn {
+            background: linear-gradient(135deg, rgba(167, 139, 250, 0.2), rgba(99, 102, 241, 0.15));
+            border: 1.5px solid rgba(167, 139, 250, 0.4);
+            color: var(--primary);
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            cursor: pointer;
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            backdrop-filter: blur(30px);
+            font-weight: 800;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ctrl-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(167, 139, 250, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .ctrl-btn:hover {
+            background: linear-gradient(135deg, rgba(167, 139, 250, 0.4), rgba(99, 102, 241, 0.3));
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 16px 56px rgba(167, 139, 250, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+        }
+
+        .ctrl-btn:hover::before {
+            opacity: 1;
+        }
+
+        .slide-count {
+            font-size: 0.95em;
+            color: var(--text-muted);
+            font-weight: 800;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════ */
+        /* PROGRESS BAR */
+        /* ═══════════════════════════════════════════════════════════════ */
+
+        .progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-light), var(--secondary), var(--accent-1), var(--accent-2), var(--primary));
+            background-size: 300% 100%;
+            animation: gradientMove 4s ease infinite;
+            transition: width 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            z-index: 100;
+            box-shadow: 0 0 30px rgba(167, 139, 250, 0.6);
+        }
+
+        @keyframes gradientMove {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* ═══════════════════════════════════════════════════════════════ */
+        /* TIMING BADGE */
+        /* ═══════════════════════════════════════════════════════════════ */
+
+        .timing {
+            position: fixed;
+            top: 32px;
+            right: 44px;
+            font-size: 0.88em;
+            color: var(--text-muted);
+            font-weight: 800;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, rgba(10, 10, 14, 0.8), rgba(26, 22, 37, 0.8));
+            padding: 10px 20px;
+            border-radius: 100px;
+            border: 1.5px solid rgba(167, 139, 250, 0.25);
+            backdrop-filter: blur(30px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════ */
+        /* DENSE SLIDES (3-8) */
+        /* ═══════════════════════════════════════════════════════════════ */
+
+        .slide-dense {
+            justify-content: flex-start;
+            padding-top: 40px;
+        }
+
+        .slide-dense h2 {
+            font-size: 2.6em;
+            margin-bottom: 16px;
+        }
+
+        .slide-dense p, .slide-dense li {
+            font-size: 1.2em;
+            line-height: 1.6;
+        }
+
+        .slide-dense .two-col {
+            gap: 50px;
+        }
+
+        .slide-dense h3 {
+            font-size: 1.5em;
+            margin-bottom: 12px;
+        }
+
+        .slide-dense .tag {
+            margin-bottom: 16px;
+        }
+
+        .slide-dense .scenario {
+            margin-bottom: 16px;
+        }
+
+        .slide-dense .callout {
+            margin-top: 20px;
+        }
+
+        .slide-dense.ultra-dense {
+            padding-top: 30px;
+        }
+
+        .slide-dense.ultra-dense h2 {
+            margin-bottom: 12px;
+        }
+
+        .slide-dense.ultra-dense > p {
+            margin-bottom: 20px !important;
+            font-size: 1.1em !important;
+        }
+
+        .slide-dense.ultra-dense .flow {
+            margin-top: 20px;
+        }
+
+        .slide-dense.ultra-dense .actions {
+            margin-bottom: 20px;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════ */
+        /* RESPONSIVE */
+        /* ═══════════════════════════════════════════════════════════════ */
+
+        @media (max-width: 1600px) {
+            .slide { padding: 60px 80px; }
+            h1 { font-size: 4em; }
+            h2 { font-size: 3em; }
+        }
+
+        @media (max-width: 1200px) {
+            .two-col, .two-col-70 { grid-template-columns: 1fr; gap: 40px; }
+            .concepts { grid-template-columns: repeat(3, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+</div>
+
+<div class="progress" id="progress"></div>
+<div class="timing" id="timing"></div>
+
+<div class="deck">
+
+    <!-- ─── SLIDE 0: Bienvenida ─── -->
+    <div class="slide active" data-time="1 min">
+        <div class="two-col-70">
+            <div>
+                <div class="tag">🎯 Workshop · 60 minutos · Teams</div>
+                <h1>Claude Code</h1>
+                <p class="subtitle">Dirección estratégica de IA en tu equipo</p>
+                <hr class="glow">
+                <ul class="clean" style="margin-top:28px">
+                    <li><span style="color:var(--primary-light)">La IA escribe en segundos</span></li>
+                    <li><span style="color:var(--primary-light)">Los equipos siguen igual de lentos</span></li>
+                    <li><span style="color:var(--accent-2)">El problema no es CÓMO, es QUÉ</span></li>
+                </ul>
+            </div>
+            <div style="text-align:center; perspective:1200px">
+                <div style="width:260px; height:260px; border-radius:50%; background:linear-gradient(135deg, rgba(167,139,250,0.25), rgba(99,102,241,0.18)); border:2px solid rgba(167,139,250,0.4); display:flex; align-items:center; justify-content:center; margin:0 auto; font-size:6em; animation:float 4s ease-in-out infinite; box-shadow:0 0 60px rgba(167,139,250,0.2)">🧠</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ─── SLIDE 1: ¿Por Qué Hablar de Esto Hoy? ─── -->
+    <div class="slide" data-time="3 min · 5 min">
+        <div class="tag">💡 Contexto · El Problema Real</div>
+        <h2>¿Por Qué Hablamos Hoy?</h2>
+        <div style="max-width:90%; margin:0 auto">
+            <div style="display:flex; gap:50px; margin-top:36px">
+                <div style="flex:1">
+                    <div style="font-size:2em; margin-bottom:16px">⏱️</div>
+                    <p style="font-size:1.2em; color:var(--text-secondary)">La IA escribe código <span style="color:var(--primary)">en segundos</span>, pero los equipos siguen igual de <span style="color:var(--primary)">lentos</span></p>
+                </div>
+                <div style="flex:1">
+                    <div style="font-size:2em; margin-bottom:16px">🎯</div>
+                    <p style="font-size:1.2em; color:var(--text-secondary)">El problema NO es <span style="color:var(--accent-2)">cómo</span> escribir. Es <span style="color:var(--accent-2)">QUÉ</span> escribir</p>
+                </div>
+                <div style="flex:1">
+                    <div style="font-size:2em; margin-bottom:16px">👥</div>
+                    <p style="font-size:1.2em; color:var(--text-secondary)">Quien <span style="color:var(--primary)">diseña</span> gana. Quien solo <span style="color:var(--primary)">ejecuta</span> pierde tiempo</p>
+                </div>
+            </div>
+        </div>
+        <div class="callout" style="margin-top:44px">
+            <p>Hoy aprendemos a diseñar mejor.</p>
+        </div>
+    </div>
+
+    <!-- ─── SLIDE 2: Encuesta ─── -->
+    <div class="slide" data-time="5 min · 10 min">
+        <div class="tag">📊 Diagnóstico · Interactivo</div>
+        <h2>¿Cómo usa IA tu equipo hoy?</h2>
+        <p style="margin-bottom:36px; color:var(--text-muted); font-size:1.3em">Voten sin filtro. No hay respuestas correctas.</p>
+        <div class="poll-options">
+            <div class="poll-opt"><span class="letter">A</span> <strong>Vibe</strong> — pedimos y vemos qué sale</div>
+            <div class="poll-opt"><span class="letter">B</span> <strong>Híbrido</strong> — a veces sí, a veces no</div>
+            <div class="poll-opt"><span class="letter">C</span> <strong>SPEC</strong> — reglas claras primero</div>
+            <div class="poll-opt"><span class="letter">D</span> <strong>Nada</strong> — no usamos IA todavía</div>
+        </div>
+        <div class="callout" style="margin-top:44px">
+            <p>📌 Guardan estos resultados. Los retomamos al final y vemos cómo cambiaron.</p>
+        </div>
+    </div>
+
+    <!-- ─── SLIDE 3: El Desarrollador Aumentado ─── -->
+    <div class="slide" data-time="3 min · 13 min">
+        <div class="tag">🧬 Rol · Evolución</div>
+        <h2>El Desarrollador Aumentado</h2>
+        <div style="max-width:90%; margin:0 auto">
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 80px; margin-top:60px">
+                <div>
+                    <p style="font-size:1.1em; color:var(--text-muted); margin-bottom:12px">ANTES</p>
+                    <p style="font-size:2em; color:var(--primary); line-height:1.4">Yo escribo cada línea<br>→ Control total</p>
+                </div>
+                <div>
+                    <p style="font-size:1.1em; color:var(--text-muted); margin-bottom:12px">AHORA</p>
+                    <p style="font-size:2em; color:var(--primary-light); line-height:1.4">Yo diseño,<br>el agente construye<br>→ Más alcance</p>
+                </div>
+            </div>
+        </div>
+        <div class="callout" style="margin-top:60px">
+            <p>El rol cambia. Tú diseñas, el agente construye. Menos teclas, más decisiones. Es evolución.</p>
+        </div>
+    </div>
+
+    <!-- ─── SLIDE 4: Vibe vs SPEC ─── -->
+    <div class="slide" data-time="4 min · 17 min">
+        <div class="tag">⚡ Comparación · Decisión</div>
+        <h2>Vibe Coding vs SPEC DRIVEN</h2>
+        <div class="compare">
+            <div class="compare-col vibe">
+                <h3>🌀 Vibe Coding</h3>
+                <ul>
+                    <li>💬 "Le pido y veo qué sale"</li>
+                    <li>⚡ Rápido para explorar</li>
+                    <li>🎲 Resultado impredecible</li>
+                    <li>📉 Baja escalabilidad</li>
+                </ul>
+            </div>
+            <div class="compare-col spec">
+                <h3>✅ SPEC DRIVEN</h3>
+                <ul>
+                    <li>📐 "Diseño primero, código segundo"</li>
+                    <li>⏱️ Más lento (pero vale la pena)</li>
+                    <li>🎯 Resultado predecible</li>
+                    <li>📈 Alta escalabilidad</li>
+                </ul>
+            </div>
+        </div>
+        <div class="callout">
+            <p>🎯 La pregunta: ¿Podría <span class="accent">otro dev</span> entender y extender lo que el agente generó en 3 meses?</p>
+        </div>
+    </div>
+
+    <!-- ─── SLIDE 5: La Transición ─── -->
+    <div class="slide" data-time="2 min · 19 min">
+        <div class="tag">➡️ Proceso · Evolución</div>
+        <h2>La Transición</h2>
+        <div style="max-width:95%; margin:0 auto; margin-top:60px">
+            <div style="text-align:center; font-size:1.4em; color:var(--text-secondary); line-height:2">
+                <span style="color:var(--primary)">Vibe Coding</span>
+                <span style="color:var(--text-muted); font-size:1.2em">  →  </span>
+                <span style="color:var(--text-secondary)">Aprender</span>
+                <span style="color:var(--text-muted); font-size:1.2em">  →  </span>
+                <span style="color:var(--text-secondary)">Producir</span>
+                <span style="color:var(--text-muted); font-size:1.2em">  →  </span>
+                <span style="color:var(--primary-light)">SPEC DRIVEN</span>
+            </div>
+            <div style="text-align:center; font-size:1.1em; color:var(--text-muted); margin-top:40px">
+                <span style="color:var(--accent-3)">[explorar]</span>
+                <span style="margin:0 20px">·</span>
+                <span style="color:var(--accent-2)">[aprender]</span>
+                <span style="margin:0 20px">·</span>
+                <span style="color:var(--accent-1)">[producir]</span>
+                <span style="margin:0 20px">·</span>
+                <span style="color:var(--primary)">[escalar]</span>
+            </div>
+        </div>
+        <div class="callout" style="margin-top:50px">
+            <p>No es uno u otro. Es un proceso natural. Exploras, aprendes, formalizas cuando va a producción.</p>
+        </div>
+    </div>
+
+    <!-- ─── SLIDE 6: CLAUDE.md ─── -->
+    <div class="slide slide-dense" data-time="10 min · 29 min">
+        <div class="tag">📄 Herramienta 1 · Ejercicio en vivo</div>
+        <div class="two-col">
+            <div>
+                <h2>CLAUDE.md<br><span style="font-size:0.45em; color:var(--text-muted)">La Constitución</span></h2>
+                <ul class="clean">
+                    <li>Una página con las reglas</li>
+                    <li>El agente lo lee siempre</li>
+                    <li>Cero repeticiones</li>
+                    <li><span class="accent-gold">No necesita perfección</span></li>
+                </ul>
+                <div style="margin-top:36px; padding:24px; background:linear-gradient(135deg,rgba(99,102,241,0.14),rgba(0,0,0,0.18)); border-radius:14px; border-left:4px solid var(--secondary); backdrop-filter:blur(30px); border:1px solid rgba(167,139,250,0.25); box-shadow:0 8px 32px rgba(0,0,0,0.25)">
+                    <p style="font-size:1em; color:var(--primary); font-weight:750">✏️ Ejercicio (5 min)</p>
+                    <p style="font-size:0.95em; margin-top:10px; color:var(--text-secondary)">Escribe el CLAUDE.md de tu equipo. Stack · NUNCA · SIEMPRE.</p>
+                </div>
+            </div>
+            <div class="code"># CLAUDE.md
+
+## Stack
+Node.js 20, Express, Jest
+
+## Lo que NUNCA hacemos
+- ❌ Secrets en código
+- ❌ console.log sensible
+
+## Lo que SIEMPRE hacemos
+- ✅ Validar input
+- ✅ 3 tests por endpoint
+- ✅ try/catch en async</div>
+        </div>
+    </div>
+
+    <!-- ─── SLIDE 7: Skills ─── -->
+    <div class="slide slide-dense" data-time="10 min · 39 min">
+        <div class="tag">🔧 Herramienta 2 · Ejercicio en chat</div>
+        <h2>Skills — Patrones Reutilizables</h2>
+        <div class="two-col">
+            <div>
+                <div class="card" style="margin-bottom:32px">
+                    <h3 style="color:var(--primary); margin-bottom:14px">¿Qué es un skill?</h3>
+                    <p style="font-size:1.25em">Tu forma estándar de hacer algo. Lo escribes una vez. El agente la sigue siempre.</p>
+                </div>
+                <p style="color:var(--text-muted); margin-bottom:18px; font-size:1.15em">Ejemplos que ya existen:</p>
+                <ul class="clean">
+                    <li>Cómo agregan endpoints</li>
+                    <li>Cómo escriben tests</li>
+                    <li>Cómo documentan APIs</li>
+                    <li>Cómo hacen code review</li>
+                </ul>
+            </div>
+            <div>
+                <div class="code"># Skill: agregar-endpoint
+
+## Cuándo usar
+Al crear endpoint REST
+
+## Pasos
+1. Define método + ruta
+2. Valida el input
+3. Implementa lógica
+4. Responde con formato
+5. Escribe 3 tests</div>
+                <div style="margin-top:28px; padding:24px; background:linear-gradient(135deg,rgba(99,102,241,0.14),rgba(0,0,0,0.18)); border-radius:14px; border-left:4px solid var(--secondary); backdrop-filter:blur(30px); border:1px solid rgba(167,139,250,0.25); box-shadow:0 8px 32px rgba(0,0,0,0.25)">
+                    <p style="font-size:1em; color:var(--primary); font-weight:750">💬 Ejercicio (5 min)</p>
+                    <p style="font-size:0.95em; margin-top:10px; color:var(--text-secondary)">En chat: ¿Qué hace tu equipo repetidamente que podría ser un skill?</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ─── SLIDE 8: Plan Mode ─── -->
+    <div class="slide slide-dense" data-time="10 min · 49 min">
+        <div class="tag">📐 Herramienta 3 · Ejercicio en chat</div>
+        <h2>Plan Mode — Diseña Antes</h2>
+        <div class="scenario" style="margin-bottom: 24px">
+            <p>📋 Escenario: Autenticación Google en sistema de reservas</p>
+        </div>
+        <div class="two-col">
+            <div>
+                <h3 style="margin-bottom:24px">Preguntas antes de code:</h3>
+                <ul class="clean">
+                    <li>¿Dónde van los tokens?</li>
+                    <li>¿Qué pasa con usuarios existentes?</li>
+                    <li>¿Qué endpoints se protegen?</li>
+                    <li>¿Hay sesiones que migrar?</li>
+                </ul>
+                <div style="margin-top:32px; padding:24px; background:linear-gradient(135deg,rgba(99,102,241,0.14),rgba(0,0,0,0.18)); border-radius:14px; border-left:4px solid var(--secondary); backdrop-filter:blur(30px); border:1px solid rgba(167,139,250,0.25); box-shadow:0 8px 32px rgba(0,0,0,0.25)">
+                    <p style="font-size:1em; color:var(--primary); font-weight:750">💬 Ejercicio (5 min)</p>
+                    <p style="font-size:0.95em; margin-top:10px; color:var(--text-secondary)">En chat: ¿Cuáles son TUS 3 preguntas antes de pedirle código?</p>
+                </div>
+            </div>
+            <div>
+                <div class="before-after">
+                    <div class="before">
+                        <h3>Sin plan</h3>
+                        <p style="font-size:1.1em; margin-top:16px">El agente genera al azar. Funciona. No escala.</p>
+                    </div>
+                    <div class="after">
+                        <h3>Con plan</h3>
+                        <p style="font-size:1.1em; margin-top:16px">Agente implementa exactamente lo que diseñaste.</p>
+                    </div>
+                </div>
+                <div class="callout" style="margin-top:24px; padding:24px">
+                    <p style="font-size:1.25em">Plan primero. Código segundo.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ─── SLIDE 9: Subagents ─── -->
+    <div class="slide slide-dense" data-time="10 min · 59 min">
+        <div class="tag">🚀 Herramienta 4 · Divide y Vencerás</div>
+        <h2>Subagents</h2>
+        <p style="margin-bottom:36px; color:var(--text-muted)">Divide en lugar de pedirlo todo a uno.</p>
+        <div class="agents">
+            <div class="agent">
+                <div class="label">AGENTE A</div>
+                <p>Vulnerabilidades</p>
+            </div>
+            <div class="agent">
+                <div class="label">AGENTE B</div>
+                <p>Security scan</p>
+            </div>
+            <div class="agent">
+                <div class="label">AGENTE C</div>
+                <p>Verifica secrets</p>
+            </div>
+        </div>
+        <p style="margin-top:32px; color:var(--accent-green); font-weight:800; font-size:1.3em">Tres en paralelo = tiempo de uno</p>
+        <div class="callout" style="margin-top:32px">
+            <p>Delegation, no acumulación. Que cada agente haga su trabajo.</p>
+        </div>
+    </div>
+
+    <!-- ─── SLIDE 10: Definition of Done ─── -->
+    <div class="slide slide-dense" data-time="7 min · 60 min ✓">
+        <div class="tag">✅ Herramienta 5 · Estándar de Calidad</div>
+        <h2>Definition of Done</h2>
+        <p style="margin-bottom:24px; color:var(--text-muted)">Antes de mergear un PR generado por IA:</p>
+        <ul class="checklist">
+            <li><span class="check">✓</span> Tests pasan</li>
+            <li><span class="check">✓</span> Cobertura ≥ 70%</li>
+            <li><span class="check">✓</span> Linting OK</li>
+            <li><span class="check">✓</span> Review humano</li>
+            <li><span class="check">✓</span> Sin secrets</li>
+            <li><span class="check">✓</span> Docs actualizados</li>
+            <li><span class="check">✓</span> <span style="color:var(--accent-1)">Autor entiende el código</span></li>
+        </ul>
+        <div style="margin-top:16px; padding:16px 18px; background:rgba(245,158,11,0.12); border-left:4px solid var(--accent-2); border-radius:12px; border:1px solid rgba(245,158,11,0.25)">
+            <p style="font-size:1em; color:var(--accent-2); font-weight:700">🔑 Quien mergea es responsable. Siempre.</p>
+        </div>
+    </div>
+
+    <!-- ─── SLIDE 11: ¿Qué Harías Mañana? ─── -->
+    <div class="slide slide-dense ultra-dense" data-time="6 min · cierre">
+        <div class="tag">⚡ Acción · Mañana</div>
+        <h2>¿Qué Haces Mañana?</h2>
+        <p style="margin-bottom:36px; color:var(--text-muted); font-size:1.25em">No todo a la vez. Elige una sola cosa.</p>
+        <div class="actions">
+            <div class="action"><span class="num">A</span>Crear CLAUDE.md esta semana</div>
+            <div class="action"><span class="num">B</span>Documentar 3 skills</div>
+            <div class="action"><span class="num">C</span>Introducir Plan Mode</div>
+            <div class="action"><span class="num">D</span>Compartir con el equipo</div>
+        </div>
+        <div class="final-msg">
+            <p>No busques <span style="text-decoration: underline; text-decoration-color: var(--primary); text-underline-offset: 5px; font-style:italic">perfección</span>. <span class="accent">CLAUDE.md básico</span> cambia todo. <strong>Esta semana</strong>.</p>
+        </div>
+    </div>
+
+    <!-- ─── SLIDE 12: Recursos ─── -->
+    <div class="slide" data-time="Post-sesión">
+        <div class="tag">📚 Cierre · Recursos</div>
+        <h2>Recursos y Siguientes Pasos</h2>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top:28px">
+            <div>
+                <h3 style="font-size:1.8em">📚 Documentos</h3>
+                <ul class="clean" style="margin-top:18px; font-size:1.1em; line-height:1.6">
+                    <li>tips-agnosticos.md</li>
+                    <li>workshop.md</li>
+                    <li>cheatsheet.html</li>
+                    <li>CLAUDE.md</li>
+                </ul>
+            </div>
+            <div>
+                <h3 style="font-size:1.8em">📋 Próximos pasos</h3>
+                <ul class="clean" style="margin-top:18px; font-size:1.1em; line-height:1.6">
+                    <li><span class="accent-gold">1</span> Implementa</li>
+                    <li><span class="accent-gold">2</span> Comparte</li>
+                    <li><span class="accent-gold">3</span> Segunda sesión</li>
+                </ul>
+            </div>
+        </div>
+        <div class="callout" style="margin-top:44px; text-align:center">
+            <p>Gracias. Si quieren la sesión de implementación en vivo, me avisan. 🙌</p>
+        </div>
+    </div>
+
+</div>
+
+<!-- Controls -->
+<div class="controls">
+    <button class="ctrl-btn" onclick="prev()">←</button>
+    <span class="slide-count" id="counter">1 / 13</span>
+    <button class="ctrl-btn" onclick="next()">→</button>
+</div>
+
+<script>
+    const slides = document.querySelectorAll('.slide');
+    const timings = ['2 min', '3 min · 5 min', '5 min · 10 min', '3 min · 13 min', '4 min · 17 min', '2 min · 19 min', '10 min · 29 min', '10 min · 39 min', '10 min · 49 min', '10 min · 59 min', '7 min · 60 min ✓', '6 min · cierre', 'Post-sesión'];
+    let current = 0;
+
+    function show(n) {
+        slides[current].classList.remove('active');
+        current = (n + slides.length) % slides.length;
+        slides[current].classList.add('active');
+        document.getElementById('counter').textContent = `${current + 1} / ${slides.length}`;
+        document.getElementById('timing').textContent = timings[current];
+        document.getElementById('progress').style.width = `${((current + 1) / slides.length) * 100}%`;
+    }
+
+    function next() { show(current + 1); }
+    function prev() { show(current - 1); }
+
+    document.addEventListener('keydown', e => {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); next(); }
+        if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')  { e.preventDefault(); prev(); }
+    });
+
+    document.getElementById('timing').textContent = timings[0];
+    document.getElementById('progress').style.width = `${(1 / slides.length) * 100}%`;
+</script>
+</body>
+</html>
