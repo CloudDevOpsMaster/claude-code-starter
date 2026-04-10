@@ -18,7 +18,7 @@ Cada slide tiene un **"Qué decir"** escrito como hablarías en una reunión —
 Pantalla con título y logo/colores del proyecto (morado/azul)
 
 ### Qué decir
-"Buenas a todos. Hoy hablamos de IA — no de cómo programar, sino de cómo trabajar con ella de forma ordenada. Son 60 minutos, vamos rápido, hay ejercicios cortos. Empecemos."
+"Hola a todos. Hoy quiero compartirles lo que he aprendido de IA estos últimos meses — no de cómo programar, sino de cómo hacer trabajo interligente con menos esfuerzo y mas calidad. la dinamica es muy simple y ejercicios cortos. Empecemos."
 
 ### Notas
 - Mantén el tono conversacional, no académico
@@ -33,13 +33,13 @@ Pantalla con título y logo/colores del proyecto (morado/azul)
 ### Qué mostrar
 Tres puntos en pantalla:
 ```
-⏱️  La IA escribe código en segundos, pero los equipos están listos para crecer exponencialmente
-🎯 La IA resuelve el CÓMO rápido. Ustedes resuelven el QUÉ — y eso es lo que realmente crea valor
+⏱️ La IA escribe código en segundos, pero los equipos están listos para crecer exponencialmente
+🎯 El problema NO es cómo escribir. Es QUÉ escribir
 👥 Tu ventaja real está en decidir bien qué construir
 ```
 
 ### Qué decir
-"Miren, tenemos herramientas que generan código en segundos. Y los equipos tienen el potencial de crecer exponencialmente. ¿Saben por qué? Porque el problema nunca fue escribir código — fue decidir **qué** código escribir. Eso sigue siendo nuestro trabajo. Hoy aprendemos a hacerlo mejor y desbloquear ese potencial."
+"Tenemos herramientas que generan código en segundos. Y los equipos tienen el potencial de crecer exponencialmente. ¿Saben por qué? Porque el problema nunca fue escribir código — fue decidir **qué** código escribir. Eso sigue siendo nuestro trabajo. Hoy aprendemos a hacerlo mejor y desbloquear ese potencial."
 
 ### Notas
 - Si alguien dice "en mi equipo también pasa", valida la observación: "exacto, eso es lo que arreglamos hoy"
@@ -114,7 +114,7 @@ Ideal para: prototipos, exploración| Ideal para: producción, equipos
 ```
 
 ### Qué decir
-"Hay dos formas de trabajar con IA. Vibe Coding: le preguntas algo, ves qué sale. Rápido para explorar. Pero si otro dev necesita continuar tu trabajo — o vos en 3 meses — se pierde. SPEC DRIVEN: defines reglas primero. El agente sigue tus convenciones automáticamente. Toma 10 minutos más al inicio, pero después escala solo. La diferencia real? En SPEC DRIVEN, otro dev continúa sin explicaciones."
+"Hay dos formas de trabajar con IA. Vibe Coding: le preguntas algo, ves qué sale. Rápido para explorar. Pero si otro dev necesita continuar tu trabajo — o tu en 3 meses — se pierde. SPEC DRIVEN: defines reglas primero. El agente sigue tus convenciones automáticamente. Toma 10 minutos más al inicio, pero después escala solo. La diferencia real? En SPEC DRIVEN, otro dev continúa sin explicaciones."
 
 ### Ejercicio
 Pregunta retórica: "Pregunten: ¿podría otro developer (o yo en 3 meses) entender lo que el agente generó?"
